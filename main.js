@@ -3,9 +3,17 @@ const routes = {
   "/search": renderResult,
 };
 
+window.addEventListener("popstate", (e) => {
+  if (routes[location.pathname]) {
+    routes[location.pathname]();
+    return;
+  }
+});
+
 const movePage = (url) => {
   const pathName = url.split("?")[0];
   if (routes[pathName]) {
+    history.pushState({}, "", url);
     routes[pathName]();
     return;
   }
