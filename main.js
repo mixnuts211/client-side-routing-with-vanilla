@@ -14,7 +14,8 @@ const movePage = (url) => {
   const pathName = url.split("?")[0];
   if (routes[pathName]) {
     history.pushState({}, "", url);
-    routes[pathName]();
+    const params = Object.fromEntries(new URLSearchParams(url.split("?")[1]));
+    routes[pathName]({ searchParams: params });
     return;
   }
 };
@@ -29,9 +30,10 @@ function renderHome() {
   `;
 }
 
-function renderResult() {
+function renderResult({ searchParams }) {
   document.querySelector("#app").innerHTML = `
-  'search'
+  <h2>검색 결과</h2>
+  <span>검색 단어 : ${searchParams.query}</span>
   `;
 }
 
